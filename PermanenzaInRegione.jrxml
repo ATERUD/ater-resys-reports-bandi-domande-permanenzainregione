@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final utlizzo versione della libreria JasperReports6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportDomande" language="groovy" pageWidth="595" pageHeight="841" columnWidth="538" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" uuid="f1546e37-66e5-42eb-8394-2e886552c6a0">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AterUDBandi.xml"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="646"/>
+	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="354"/>
+	<property name="com.jaspersoft.studio.unit." value="mm"/>
+	<style name="Default" isDefault="true" fontName="ATER Fonts - Arimo"/>
+	<style name="MultiLineBackGround" style="Default">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F5F5FF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="LOGO" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["minilogo.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="INTESTAZIONE1" class="java.lang.String"/>
+	<parameter name="ID_BANDO" class="java.lang.Double">
+		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<queryString language="hql">
+		<![CDATA[Select  d.id.idBando as idBando
+,d.numeroProtocollo as numeroProtocollo
+,d.annoProtocollo as annoProtocollo
+,d.dataProtocollo as dataProtocollo
+, d.numeroDomanda as numeroDomanda
+, anagrafica.cognomeRagione as cognomeRagione
+, anagrafica.nominativo as nominativo
+, d.inizioPermRegione as inizioPermRegione
+, c.descrizione as descrizione
+,b.annoBando as annoBando
+,b.numeroBando as numeroBando
+,b.dataPubblicazione as dataPubblicazione
+,b.oggetto as oggetto
+From Domande d, Anagrafiche anagrafica, Bandi b, Cittadinanza c 
+Where d.codiceAnagrafica = anagrafica.codice
+And c.codice =  anagrafica.cittadinanza
+And b.idBando = d.id.idBando
+And ( $P{ID_BANDO} is null Or $P{ID_BANDO} < 1.0 Or $P{ID_BANDO} = d.id.idBando )
+order by d.annoProtocollo, d.numeroProtocollo]]>
+	</queryString>
+	<field name="numeroProtocollo" class="java.lang.String"/>
+	<field name="idBando" class="java.lang.Double"/>
+	<field name="annoProtocollo" class="java.lang.String"/>
+	<field name="dataProtocollo" class="java.sql.Date"/>
+	<field name="numeroDomanda" class="java.lang.Integer"/>
+	<field name="cognomeRagione" class="java.lang.String"/>
+	<field name="nominativo" class="java.lang.String"/>
+	<field name="inizioPermRegione" class="java.util.Date"/>
+	<field name="descrizione" class="java.lang.String"/>
+	<field name="annoBando" class="java.lang.String"/>
+	<field name="numeroBando" class="java.lang.Integer"/>
+	<field name="dataPubblicazione" class="java.sql.Date"/>
+	<field name="oggetto" class="java.lang.String"/>
+	<variable name="PagGrad" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{PAGE_NUMBER}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="21" splitType="Stretch">
+			<image scaleImage="FillFrame" hAlign="Center">
+				<reportElement x="10" y="1" width="33" height="20" uuid="78fb2f96-719c-4e82-90fd-4a0ed195afb0"/>
+				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="false">
+				<reportElement key="" x="1" y="1" width="537" height="20" uuid="2ea975cb-0558-4d8b-bd08-ea37a625cf87"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{INTESTAZIONE1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="50">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement positionType="Float" x="0" y="0" width="538" height="17" uuid="e1cfa191-ca6e-4d1e-89eb-cae13fe0be03"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="ATER Fonts - Arimo" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{numeroBando} == null ? "" : " BANDO DI CONCORSO N. " +   $F{numeroBando} ) +
+( $F{annoBando} == null ? "" : " / " + $F{annoBando}  +
+" - " + $F{oggetto})]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="20" width="538" height="18" uuid="ad917af2-4aa8-47fa-9812-5027c179d069"/>
+				<textElement textAlignment="Center">
+					<font fontName="ATER Fonts - Arimo" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Elenco domande - cittadinanza e permanenza in regione]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="17" splitType="Stretch">
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="60" height="17" backcolor="#E0E0E0" uuid="375913f5-334f-4f43-aad5-9b464ed2a5f2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5361d283-2339-4ed7-967b-2f669eecc686"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="ATER Fonts - Arimo" size="9"/>
+				</textElement>
+				<text><![CDATA[Numero Prot.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="60" y="0" width="60" height="17" backcolor="#E0E0E0" uuid="963bc39f-eaf0-49b3-a7de-54515039474a">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="86bf05ec-fb75-4033-a604-86efd333777d"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="ATER Fonts - Arimo" size="9"/>
+				</textElement>
+				<text><![CDATA[Data Prot.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="120" y="0" width="65" height="17" backcolor="#E0E0E0" uuid="16ce4deb-0e41-48e9-92d3-16aa7d1d3551">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ce3798e9-d666-49b0-8082-a0a0abba8c6f"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="ATER Fonts - Arimo" size="9"/>
+				</textElement>
+				<text><![CDATA[Num.Domanda]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="185" y="0" width="105" height="17" backcolor="#E0E0E0" uuid="8374c02d-e519-4831-9b52-240ad9bc86e2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4ede1518-36c7-4b86-8bb2-3c40ed2ffbc0"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="ATER Fonts - Arimo" size="9"/>
+				</textElement>
+				<text><![CDATA[Cognome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="290" y="0" width="105" height="17" backcolor="#E0E0E0" uuid="f851d93a-affb-4a7f-a3ca-921ed3bacdbe">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d30a9d3b-c7be-4ba7-acf0-3d5ffb66bbe3"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="ATER Fonts - Arimo" size="9"/>
+				</textElement>
+				<text><![CDATA[Nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="482" y="0" width="56" height="17" backcolor="#E0E0E0" uuid="c8b50944-7666-41dc-b5cc-58f7b28bcebb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="16259456-d25b-4996-b6d5-12c742461908"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="ATER Fonts - Arimo" size="9"/>
+				</textElement>
+				<text><![CDATA[Inizio Perman.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="395" y="0" width="87" height="17" backcolor="#E0E0E0" uuid="ac431613-ca02-41b3-a9f1-e6afbe0b0d68">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="00bbffbb-9b18-43eb-a179-1c054eaa4944"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.75" lineColor="#CCCCCC"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="ATER Fonts - Arimo" size="9"/>
+				</textElement>
+				<text><![CDATA[Cittadinanza]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="17" splitType="Prevent">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="0" y="0" width="60" height="17" isRemoveLineWhenBlank="true" uuid="fb3c80d6-f689-408c-995a-4c0d0abf12e0">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5361d283-2339-4ed7-967b-2f669eecc686"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="0.05" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="ATER Fonts - Arimo" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[( $F{numeroProtocollo} == null ? "" :  $F{numeroProtocollo} ) +
+( $F{annoProtocollo} == null ? "" : "/" + $F{annoProtocollo})]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="60" y="0" width="60" height="17" isRemoveLineWhenBlank="true" uuid="29c56c0f-2e44-479d-b017-bdebd04a1308">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="86bf05ec-fb75-4033-a604-86efd333777d"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="0.05" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="ATER Fonts - Arimo" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataProtocollo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="120" y="0" width="65" height="17" isRemoveLineWhenBlank="true" uuid="f52792c9-d0d1-42f3-bf22-380c6c2e7fdf">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="ce3798e9-d666-49b0-8082-a0a0abba8c6f"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="0.05" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="ATER Fonts - Arimo" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroDomanda}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="185" y="0" width="105" height="17" isRemoveLineWhenBlank="true" uuid="74741c37-a783-4eb4-9cfc-15ce0888c68c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="4ede1518-36c7-4b86-8bb2-3c40ed2ffbc0"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="0.05" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="ATER Fonts - Arimo" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cognomeRagione}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="290" y="0" width="105" height="17" isRemoveLineWhenBlank="true" uuid="e5b57b39-4ee9-4bf0-b945-589feb832755">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="d30a9d3b-c7be-4ba7-acf0-3d5ffb66bbe3"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="0.05" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="ATER Fonts - Arimo" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nominativo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="395" y="0" width="87" height="17" isRemoveLineWhenBlank="true" uuid="5d08aaed-3f99-4ccd-81fc-a0eda313f0c2">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="00bbffbb-9b18-43eb-a179-1c054eaa4944"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="0.05" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="ATER Fonts - Arimo" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descrizione}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement stretchType="ElementGroupBottom" x="482" y="0" width="56" height="17" uuid="f88cf97c-ea25-47ae-8340-a324828cd5ce">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="86bf05ec-fb75-4033-a604-86efd333777d"/>
+				</reportElement>
+				<box topPadding="5" leftPadding="5" bottomPadding="5" rightPadding="5">
+					<pen lineWidth="0.05" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font fontName="ATER Fonts - Arimo" size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{inizioPermRegione}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="16" splitType="Stretch">
+			<textField>
+				<reportElement x="1" y="1" width="537" height="15" uuid="d096ffc1-9f9a-4120-a483-2e4d1ce44ff4"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pagina "+$V{PagGrad}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
