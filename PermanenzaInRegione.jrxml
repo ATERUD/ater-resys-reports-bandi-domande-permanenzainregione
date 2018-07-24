@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.5.1.final utlizzo versione della libreria JasperReports6.5.1  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportDomande" language="groovy" pageWidth="595" pageHeight="841" columnWidth="538" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" uuid="f1546e37-66e5-42eb-8394-2e886552c6a0">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ReportDomande" language="groovy" pageWidth="595" pageHeight="841" columnWidth="538" leftMargin="28" rightMargin="28" topMargin="28" bottomMargin="28" resourceBundle="Report" uuid="f1546e37-66e5-42eb-8394-2e886552c6a0">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="AterUDBandi.xml"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="646"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="354"/>
@@ -13,11 +13,16 @@
 		</conditionalStyle>
 	</style>
 	<parameter name="LOGO" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["minilogo.png"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["logo.png"]]></defaultValueExpression>
 	</parameter>
-	<parameter name="INTESTAZIONE1" class="java.lang.String"/>
 	<parameter name="ID_BANDO" class="java.lang.Double">
 		<defaultValueExpression><![CDATA[2]]></defaultValueExpression>
+	</parameter>
+	<parameter name="INTESTAZIONE1" class="java.lang.String">
+		<defaultValueExpression><![CDATA["AZIENDA TERRITORIALE PER L’EDILIZIA RESIDENZIALE ...... ....... ....... ......."]]></defaultValueExpression>
+	</parameter>
+	<parameter name="FOOTERSTAMPA" class="java.lang.String">
+		<defaultValueExpression><![CDATA["ATER FVG"]]></defaultValueExpression>
 	</parameter>
 	<queryString language="hql">
 		<![CDATA[Select  d.id.idBando as idBando
@@ -61,7 +66,7 @@ order by d.annoProtocollo, d.numeroProtocollo]]>
 	</background>
 	<title>
 		<band height="21" splitType="Stretch">
-			<image scaleImage="FillFrame" hAlign="Center">
+			<image scaleImage="RetainShape" hAlign="Center">
 				<reportElement x="10" y="1" width="33" height="20" uuid="78fb2f96-719c-4e82-90fd-4a0ed195afb0"/>
 				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
 			</image>
@@ -272,13 +277,28 @@ order by d.annoProtocollo, d.numeroProtocollo]]>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="16" splitType="Stretch">
+		<band height="18" splitType="Stretch">
 			<textField>
-				<reportElement x="1" y="1" width="537" height="15" uuid="d096ffc1-9f9a-4120-a483-2e4d1ce44ff4"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="8"/>
+				<reportElement x="130" y="0" width="280" height="18" uuid="18356363-31c1-495c-9007-71efd7347dd5"/>
+				<textElement textAlignment="Center">
+					<font isItalic="true"/>
 				</textElement>
-				<textFieldExpression><![CDATA["Pagina "+$V{PagGrad}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$R{ReportName}+" "+$R{ReportVersion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="130" height="18" uuid="88e11750-80d9-4e90-ba58-367e9460d25e"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$P{FOOTERSTAMPA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="0" width="65" height="18" uuid="c8b4db12-fe09-49a6-bd3a-62edfe83e569"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pagina " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="475" y="0" width="55" height="18" uuid="1c0f6eaf-35d0-4082-bf55-007c877cf2c4"/>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[" di " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
