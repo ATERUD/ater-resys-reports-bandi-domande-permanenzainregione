@@ -58,9 +58,6 @@ order by d.annoProtocollo, d.numeroProtocollo]]>
 	<field name="numeroBando" class="java.lang.Integer"/>
 	<field name="dataPubblicazione" class="java.sql.Date"/>
 	<field name="oggetto" class="java.lang.String"/>
-	<variable name="PagGrad" class="java.lang.Integer">
-		<variableExpression><![CDATA[$V{PAGE_NUMBER}]]></variableExpression>
-	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
